@@ -64,19 +64,24 @@ class DynamicArray<T> {
     this.size = 0;
     // default initial capacity
     this.INIT_CAP = 1;
-
-    // initialization
-    this.init(initCapacity)
+    this.init(initCapacity) // initialize the array with the given capacity
   }
 
+  /**
+   * Initialize the array with the given capacity
+   * @param initCapacity the initial capacity
+   */
   private init(initCapacity: number): void {
     const capacity = initCapacity || this.INIT_CAP;
     this.data = new Array(capacity);
     this.size = 0;
   }
 
-  // add
-  addLast(element: T): void {
+  /**
+   * Add an element to the end of the array
+   * @param element the element to add
+   */
+  public addLast(element: T): void {
     const cap = this.data.length;
 
     // check if the capacity of the data array is enough
@@ -88,7 +93,12 @@ class DynamicArray<T> {
     this.size++;
   }
 
-  add(index: number, element: T): void {
+  /**
+   * Add an element at the given index
+   * @param index the index where the element should be added
+   * @param element the element to add
+   */
+  public add(index: number, element: T): void {
     // check for index out of bounds
     this.checkPositionIndex(index);
 
@@ -110,12 +120,20 @@ class DynamicArray<T> {
     this.size++;
   }
 
-  addFirst(element: T): void {
+  /**
+   * Add an element to the front of the array
+   * @param element the element to add
+   */
+  public addFirst(element: T): void {
     this.add(0, element);
   }
 
-  // remove
-  remove(index: number): T {
+  /**
+   * Remove the element at the given index
+   * @param index the index of the element to remove
+   * @returns the removed element
+   */
+  public remove(index: number): T {
     this.checkElementIndex(index);
 
     const cap = this.data.length;
@@ -138,11 +156,19 @@ class DynamicArray<T> {
     return deletedVal!;
   }
 
-  removeFirst(): T {
+  /**
+   * Remove the first element from the array
+   * @returns the removed element
+   */
+  public removeFirst(): T {
     return this.remove(0);
   }
 
-  removeLast(): T {
+  /**
+   * Remove the last element from the array
+   * @returns the removed element
+   */
+  public removeLast(): T {
     if (this.size === 0 ){
       throw new Error("NoSuchElementException");
     }
@@ -165,13 +191,13 @@ class DynamicArray<T> {
   }
 
   // get
-  get(index: number): T {
+  public get(index: number): T {
     this.checkElementIndex(index);
     return this.data[index]!;
   }
 
   // set
-  set(index: number, element: T): T {
+  public set(index: number, element: T): T {
     this.checkElementIndex(index);
 
     // modify data
@@ -181,15 +207,18 @@ class DynamicArray<T> {
   }
 
   // utility methods
-  getSize(): number {
+  public getSize(): number {
     return this.size;
   }
 
-  isEmpty(): boolean {
+  public isEmpty(): boolean {
     return this.size === 0;
   }
 
-  // change the capacity of data to newCap
+  /**
+   * Resize the array to the new capacity
+   * @param newCap the new capacity
+   */
   private resize(newCap: number): void {
     const temp = new Array(newCap);
 
@@ -199,30 +228,38 @@ class DynamicArray<T> {
     this.data = temp;
   }
 
+  /**
+   * Check if the index is a valid index for an element
+   * @param index the index to check
+   * @returns true if the index is valid, false otherwise
+   */
   private isElementIndex(index: number): boolean {
     return index >= 0 && index < this.size;
   }
 
+  /**
+   * Check if the index is a valid index for a position to insert an element
+   * @param index the index to check
+   * @returns true if the index is valid, false otherwise
+   */
   private isPositionIndex(index: number): boolean {
     return index >= 0 && index <= this.size;
   }
 
-  // check if the index position can contain an element
   private checkElementIndex(index: number): void {
     if (!this.isElementIndex(index)) {
       throw new Error(`Index: ${index}, Size: ${this.size}`);
     }
   }
 
-  // check if the index position is a valid position to insert an element
   private checkPositionIndex(index: number): void {
     if (!this.isPositionIndex(index)) {
       throw new Error(`Index: ${index}, Size: ${this.size}`);
     }
   }
 
-  display(){
-    console.log(`size = ${this.size} cap = ${this.data.length}`)
+  public display(){
+    console.log(`size = ${this.size}, cap = ${this.data.length}`)
     console.log(this.data);
   }
 }
@@ -231,24 +268,29 @@ class DynamicArray<T> {
 const array = new DynamicArray<number>(3);
 
 // add 5 elements
-for (let i = 0; i <= 5; i++) {
+for (let i = 0; i <= 4; i++) {
   array.addLast(i);
 }
 console.log("After adding 5 elements:");
 array.display();
 
+console.log("After removing element at index 3:");
 array.remove(3);
 array.display();
 
+console.log("After adding element 9 at index 1:");
 array.add(1, 9);
 array.display();
 
+console.log("After adding element 100 at the beginning:");
 array.addFirst(100);
 array.display();
 
+console.log("After removing the last element:");
 array.removeLast();
 array.display();
 
+console.log("After getting all elements:");
 for (let i = 0; i < array.getSize(); i++) {
   console.log(array.get(i)); // prints elements 0, 1, 9, 100
 }
